@@ -1,24 +1,16 @@
 const http = require('http');
 
-const prices = [400, 300, 200, 600, 150, 200];
-const discount = 20;
+const strings = ['4',undefined,'7','12',null, []];
 
-function calculateTotalPrice(prices, discount) {
-    const max = Math.max(...prices);
-
-    const total = prices.reduce((acc, price) => {
-        const isUniq = prices.filter(x => x === price).length === 1;
-
-       if(price === max && isUniq) return acc + price  - price * (discount / 100);
-
-       return acc;
-    },0);
-
-    return Math.floor(total);
+function convertToIntegers(strings) {
+    return strings.map(x => {
+        const number = parseInt(x);
+        return isNaN(number)? null: number;
+    });
 }
-
 const server = http.createServer((req, res) => {
-    res.end('result ' + calculateTotalPrice(prices, discount))
+    console.log(convertToIntegers(strings));
+    res.end('result ' + convertToIntegers(strings))
 })
 
 server.listen(process.env.PORT || 3000);
